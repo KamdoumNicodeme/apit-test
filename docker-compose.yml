@@ -39,7 +39,7 @@ services:
 
     mysql:
         image: mysql:8.0
-        container_name: laravel_mysql
+        container_name: api_mysql
         ports:
             - "3306:3306"
         volumes:
@@ -48,7 +48,7 @@ services:
         tty: true
         environment:
             MYSQL_DATABASE: api
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_PASSWORD:
             MYSQL_SERVICE_NAME: mysql
         networks:
             - webapp

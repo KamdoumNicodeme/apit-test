@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +13,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Les attributs qui sont remplissables en masse.
      *
      * @var array<int, string>
      */
@@ -25,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Les attributs qui doivent être cachés pour la sérialisation.
      *
      * @var array<int, string>
      */
@@ -35,7 +34,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * The attributes that should be cast.
+     * Les attributs qui doivent être convertis en types natifs.
      *
      * @var array<string, string>
      */
@@ -43,16 +42,29 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Renvoie l'identifiant JWT de l'utilisateur.
+     *
+     * @return mixed
+     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
+    /**
+     * Renvoie des claims personnalisés pour le JWT.
+     *
+     * @return array
+     */
     public function getJWTCustomClaims(): array
     {
         return [];
     }
 
+    /**
+     * Obtient la localisation de l'utilisateur.
+     */
     public function location()
     {
         return $this->hasOne(Location::class);
