@@ -1,0 +1,56 @@
+version: '3.9'
+
+
+networks:
+    webapp:
+
+
+services:
+    nginx:
+        image: nginx:stable-alpine
+        container_name: ${APP_NAME}_nginx
+        ports:
+            -   "8000:80"
+        links:
+            -   php
+        volumes:
+            - ./:/var/www/html
+            - ./docker/logs/nginx:/var/logs/nginx:rw
+            -
+        depends_on:
+            -   php
+            -   mysql
+        networks:
+            - webapp
+
+
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: ${APP_NAME}_php
+        volumes:
+            -   ./:/var/www/html
+        ports:
+            -   "9001:9000"
+        networks:
+            - webapp
+
+
+    mysql:
+        image: mysql:8.0
+        container_name: laravel_mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - "./mysql:/var/lib/mysql"
+        restart: unless-stopped
+        tty: true
+        environment:
+            MYSQL_DATABASE: api
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_SERVICE_NAME: mysql
+        networks:
+            - webapp
+
+

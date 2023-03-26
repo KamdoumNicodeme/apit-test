@@ -19,8 +19,12 @@ Ce projet est une application web qui suit la localisation des utilisateurs et a
 - Angular 12
 - Node.js 16.0 ou supérieur
 - Socket.IO 4.0 ou supérieur
+- docker
+- nginx
 
 ## Installation
 
 #### 1- executer la commande composer create-project laravel/laravel apit-test une fois apres avoir telecharger composer
-#### 2-
+#### 2- configuration d'un fichier docker-compose.yml contenant toutes les exigences techniques backend
+#### 3- configuration d'un fichier Dockerfile pour l'execution en mode production 
+
