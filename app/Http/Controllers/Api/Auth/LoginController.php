@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Events\LocationUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use App\Models\User;
-use http\Env\Response;use Illuminate\Http\JsonResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -80,6 +81,9 @@ class LoginController extends Controller
 
         // Associer la nouvelle position à l'utilisateur
         $user->location()->save($location);
+
+        // Diffuser l'événement LocationUpdated pour informer les clients connectés de la nouvelle position de l'utilisateur
+        broadcast(new LocationUpdated($user))->toOthers();
 
         // Retourne une réponse JSON avec un code de succès 200
         return response()->json(['message' => 'Position mise à jour avec succès!', 'user' => $user], 200);
